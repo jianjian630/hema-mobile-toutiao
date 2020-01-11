@@ -1,9 +1,16 @@
 <template>
-  <div>问答</div>
+  <div class="container">
+    <van-skeleton title :row="3" />
+    <br>
+    <van-skeleton title :row="3" />
+    <br>
+    <van-skeleton title :row="3" />
+  </div>
 </template>
 
 <script>
 export default {
+  name: 'question'
 }
 </script>
 

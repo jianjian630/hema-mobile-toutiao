@@ -1,9 +1,12 @@
 <template>
-  <div>首页</div>
+  <div class="container">
+
+  </div>
 </template>
 
 <script>
 export default {
+  name: 'home'
 }
 </script>
 
