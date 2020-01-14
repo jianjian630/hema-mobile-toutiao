@@ -1,7 +1,7 @@
 // 专门处理用户信息存储和删除以及获取 ，放置在 localStorage
 const USER_TOKEN = 'heima-toutiao-token' // 这个 key 专门用来存储用户信息
 // 设置用户信息
-export function serUser (user) {
+export function setUser (user) {
   localStorage.setItem(USER_TOKEN, JSON.stringify(user))
 }
 // 读取用户信息

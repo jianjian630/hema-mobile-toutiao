@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
 
 const Layout = () => import ('@/views/layout') // 布局
 const Home = () => import('@/views/home') // 首页
@@ -63,5 +64,10 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-
+// 设置导航守卫
+router.beforeEach((to, from, next) => {
+  const login = { path: '/login', query: { redirectUrl: to.path } }
+  if (to.path.startsWith('/user') && !store.state.user.token) return next(login)
+  else next()
+})
 export default router

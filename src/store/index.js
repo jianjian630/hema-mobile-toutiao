@@ -10,8 +10,8 @@ export default new Vuex.Store({
   mutations: {
     // 更新数据
     updateUser (state, payload) {
-      state.user = payload.user
-      auth.setUser(payload.user)
+      state.user = payload.user // 更新数据
+      auth.setUser(payload.user) // 将数据同步设置到本地存储中
     },
     // 清空 user
     clearUser (state) {
