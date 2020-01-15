@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <br>
     <van-skeleton title avatar :row="3" />
     <van-skeleton title avatar :row="3" />
     <van-skeleton title avatar :row="3" />
