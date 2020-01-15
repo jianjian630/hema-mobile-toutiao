@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <van-tabs v-model="active" swipeable>
-      <van-tab :title="'标签'+item" v-for="item in 10" :key="item">
+      <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
         <article-list></article-list>
       </van-tab>
     </van-tabs>
@@ -13,15 +13,27 @@
 
 <script>
 import ArticleList from './components/article-list'
+import { getMyChannels } from '@/api/channels'
 export default {
   name: 'home',
   data: function () {
     return {
-      active: 0
+      active: 0,
+      channels: [] // 声明频道需要的数据
     }
   },
   components: {
     ArticleList
+  },
+  methods: {
+    async getMyChannels () {
+      let data = await getMyChannels()
+      console.log(data)
+      this.channels = data.channels
+    }
+  },
+  created () {
+    this.getMyChannels()
   }
 }
 </script>
