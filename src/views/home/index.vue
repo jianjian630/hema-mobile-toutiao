@@ -2,7 +2,7 @@
   <div class="container">
     <van-tabs v-model="active" swipeable>
       <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
-        <article-list></article-list>
+        <article-list :channel_id="channel.id"></article-list>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
@@ -16,10 +16,12 @@ import ArticleList from './components/article-list'
 import { getMyChannels } from '@/api/channels'
 export default {
   name: 'home',
+
   data: function () {
     return {
       active: 0,
       channels: [] // 声明频道需要的数据
+
     }
   },
   components: {
