@@ -7,19 +7,20 @@
           <div class="article_item">
             <h3 class="van-ellipsis">{{article.title}}</h3>
             <div class="img_box" v-if="article.cover.type===3">
-              <van-image class="w33" fit="cover" :src="article.cover.images[0]" />
-              <van-image class="w33" fit="cover" :src="article.cover.images[1]" />
-              <van-image class="w33" fit="cover" :src="article.cover.images[2]" />
+              <van-image lazy-load class="w33" fit="cover" :src="article.cover.images[0]" />
+              <van-image lazy-load class="w33" fit="cover" :src="article.cover.images[1]" />
+              <van-image lazy-load class="w33" fit="cover" :src="article.cover.images[2]" />
             </div>
             <!-- 一张图 -->
             <div class="img_box" v-if="article.cover.type===1">
-              <van-image class="w100" fit="cover" :src="article.cover.images[0]" />
+              <van-image lazy-load class="w100" fit="cover" :src="article.cover.images[0]" />
             </div>
             <div class="info_box">
               <span>{{ article.aut_name }}</span>
               <span>{{ article.comm_count }}</span>
-              <span>{{ article.pubdate }}</span>
-              <span class="close">
+              <span>{{ article.pubdate | relTime }}</span>
+              <!--每条右上角的  × -->
+              <span class="close" v-if="user.token">
                 <van-icon name="cross"></van-icon>
               </span>
             </div>
@@ -31,6 +32,7 @@
 </template>
 <script>
 import { getArticles } from '@/api/article'
+import { mapState } from 'vuex'
 export default {
   name: 'article-list',
   // props 传值
@@ -41,6 +43,9 @@ export default {
       type: Number, // type 指定类型
       default: null // default 默认值
     }
+  },
+  computed: {
+    ...mapState(['user'])
   },
   data () {
     return {
@@ -54,6 +59,8 @@ export default {
   },
   methods: {
     async onLoad () {
+      // 休眠函数
+      await this.$sleep() // 等待 sleep resolve
       // console.log('加载了')
       // setTimeout(() => {
       //   if (this.articles.length === 50) {
@@ -83,6 +90,8 @@ export default {
     },
     // 下拉刷新
     async onRefresh () {
+      // 休眠函数
+      await this.$sleep() // 等待 sleep  resolve
       // console.log('下拉刷新')
       // setTimeout(() => {
       //   let arr = Array.from(Array(10), (value, index) => '追加' + (index + 1))

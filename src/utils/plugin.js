@@ -1,3 +1,4 @@
+// dayjs 时间格式处理
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn' // 引入中文的语言包
@@ -23,5 +24,6 @@ function sleep (time = 500) {
 // 相对时间的过滤器 得到一个相对时间
 //  value 值 我们认为就是 时间
 function relTime (value) {
+  // 转换时间到相对时间
   return dayjs().locale('zh-cn').from(value)
 }
