@@ -1,13 +1,13 @@
 <template>
   <div class="more-action">
-      <van-cell-group>
-          <van-cell>不感兴趣</van-cell>
+      <van-cell-group v-if="!isReport">
+          <van-cell @click="$emit('dislike')">不感兴趣</van-cell>
           <!-- is-link属性会在单元格右侧显示箭头 -->
-          <van-cell is-link>反馈垃圾内容</van-cell>
+          <van-cell is-link @click="isReport=true">反馈垃圾内容</van-cell>
           <van-cell>拉黑作者</van-cell>
       </van-cell-group>
-      <van-cell-group>
-          <van-cell icon="arrow-left">返回</van-cell>
+      <van-cell-group v-else>
+          <van-cell icon="arrow-left" @click="isReport=false">返回</van-cell>
           <van-cell>侵权</van-cell>
           <van-cell>色情</van-cell>
           <van-cell>暴力</van-cell>
@@ -23,7 +23,7 @@
 export default {
   data () {
     return {
-      isReport: false // 设置一个标识
+      isReport: false // 设置一个标识, 用来控制第一个和第二个单元格的显示
     }
   }
 }

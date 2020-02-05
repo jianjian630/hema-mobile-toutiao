@@ -1,37 +1,62 @@
 <template>
   <div class="container">
-    <van-tabs v-model="active" swipeable>
+    <van-tabs v-model="activeIndex" swipeable>
       <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
-        <article-list :channel_id="channel.id"></article-list>
+        <article-list @showAction="openMoreAction" :channel_id="channel.id"></article-list>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
       <van-icon name="wap-nav" />
     </span>
+    <!-- 用popup 组件包裹 MoreAction 组件就可以弹出层 -->
+    <van-popup :style="{width:'80%'}" v-model="showMoreAction">
+      <more-action @dislike="dislike"></more-action>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import ArticleList from './components/article-list'
+import MoreAction from './components/more-action'
 import { getMyChannels } from '@/api/channels'
+import { disLikeArticle } from '@/api/article'
+import eventBus from '@/utils/eventBus'
 export default {
-  name: 'home',
+  name: 'home', // devtools 用来查看文件时   可以看到 对应的 name名称
 
   data: function () {
     return {
-      active: 0,
-      channels: [] // 声明频道需要的数据
-
+      activeIndex: 0,
+      channels: [], // 声明频道需要的数据
+      showMoreAction: false, // 控制反馈组件显示隐藏
+      articleId: null // 用来接收文章id
     }
   },
   components: {
-    ArticleList
+    ArticleList, MoreAction
   },
   methods: {
     async getMyChannels () {
       let data = await getMyChannels()
       // console.log(data)
       this.channels = data.channels
+    },
+    //  监听子组件触发的事件 打开弹层
+    openMoreAction (artId) {
+      this.showMoreAction = true
+      this.articleId = artId // 接收不喜欢文章的 id
+    },
+    async dislike () {
+      try {
+        await disLikeArticle({
+          target: this.articleId
+        })
+        this.$gnotify({ type: 'success', message: '操作成功' })
+        eventBus.$emit('delArticle', this.articleId, this.channels[this.activeIndex].id)
+        this.showMoreAction = false
+      } catch (error) {
+        this.$gnotify({ type: 'danger', message: '操作失败' })
+      }
     }
   },
   created () {

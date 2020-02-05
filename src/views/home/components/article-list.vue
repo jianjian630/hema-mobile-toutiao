@@ -2,7 +2,7 @@
   <div class="scroll-wrapper">
     <van-pull-refresh v-model="downLoading" :success-text="refreshSuccessText" @refresh="onRefresh">
       <van-list v-model="upLoading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <van-cell v-for="article in articles" :key="article.art_id.toString()" >
+        <van-cell v-for="article in articles" :key="article.art_id.toString()">
           <!-- 三张图  -->
           <div class="article_item">
             <h3 class="van-ellipsis">{{article.title}}</h3>
@@ -19,8 +19,12 @@
               <span>{{ article.aut_name }}</span>
               <span>{{ article.comm_count }}</span>
               <span>{{ article.pubdate | relTime }}</span>
-              <!--每条右上角的  × -->
-              <span class="close" v-if="user.token">
+              <!-- 每条右上角的  ×         子组件触发自定义事件 -->
+              <span
+                class="close"
+                v-if="user.token"
+                @click="$emit('showAction',article.art_id.toString())"
+              >
                 <van-icon name="cross"></van-icon>
               </span>
             </div>
@@ -33,6 +37,7 @@
 <script>
 import { getArticles } from '@/api/article'
 import { mapState } from 'vuex'
+import eventBus from '@/utils/eventBus'
 export default {
   name: 'article-list',
   // props 传值
@@ -43,6 +48,19 @@ export default {
       type: Number, // type 指定类型
       default: null // default 默认值
     }
+  },
+  created () {
+    // 开启监听
+    eventBus.$on('delArticle', (articleId, channelId) => {
+      if (this.channel_id === channelId) {
+        // 这个条件表示 该列表就是当前激活列表
+        let index = this.articles.findIndex(item => item.art_id.toString() === articleId)
+        // 如果 index 大于 -4 ，表示找到了
+        if (index > -1) {
+          this.articles.splice(index, 1) // 删除了不喜欢的文章
+        }
+      }
+    })
   },
   computed: {
     ...mapState(['user'])
@@ -73,7 +91,7 @@ export default {
       //     this.upLoading = false // 关闭状态
       //   }
       // }, 1000)
-      let data = await getArticles({
+      const data = await getArticles({
         channel_id: this.channel_id,
         timestamp: this.timestamp || Date.now()
       })

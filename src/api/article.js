@@ -8,3 +8,12 @@ export function getArticles (params) {
     params: { with_top: 1, ...params }
   })
 }
+
+// 封装不喜欢接口
+export function disLikeArticle (data) {
+  return request({
+    url: '/article/dislikes',
+    method: 'post',
+    data
+  })
+}
