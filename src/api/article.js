@@ -17,3 +17,12 @@ export function disLikeArticle (data) {
     data
   })
 }
+
+// 封装举报文章的
+export function reportArticle (data) {
+  return request({
+    url: '/article/reports',
+    data,
+    method: 'post'
+  })
+}
