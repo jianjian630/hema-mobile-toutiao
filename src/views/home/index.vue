@@ -16,10 +16,9 @@
     </van-popup>
     <!-- 编辑频道 -->
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
-      <!-- 放置频道的组件 -->
-      <channel-edit></channel-edit>
+      <!-- 放置频道的组件    子传父 -->
+      <channel-edit :channels="channels"></channel-edit>
     </van-action-sheet>
-
   </div>
 </template>
 

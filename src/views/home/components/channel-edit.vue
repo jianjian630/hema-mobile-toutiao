@@ -8,9 +8,12 @@
         <van-button v-else @click="editing=false" size="mini" type="danger" plain>完成</van-button>
       </div>
       <van-grid class="van-hairline--left">
-        <van-grid-item v-for="index in 8" :key="index">
-          <span class="f12">频道{{index}}</span>
-          <van-icon class="btn" name="cross"></van-icon>
+        <van-grid-item v-for="(channel,i) in channels" :key="channel.id">
+          <span class="f12">{{channel.name}}</span>
+          <template v-if="i!=0">
+            <!-- 判断，如果不是第一个才显示 叉号  第一个永远不能删除 -->
+            <van-icon class="btn" name="cross"></van-icon>
+          </template>
         </van-grid-item>
       </van-grid>
     </div>
@@ -28,10 +31,16 @@
 
 <script>
 export default {
-
   data () {
     return {
       editing: false // 是否正在编辑
+    }
+  },
+  props: {
+    channels: {
+      required: true,
+      type: Array,
+      default: () => []
     }
   }
 }
