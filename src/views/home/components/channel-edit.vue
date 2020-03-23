@@ -12,7 +12,7 @@
           <span :class="{red: i===activeIndex}" @click="$emit('selectChannel',channel.id)" class="f12">{{channel.name}}</span>
           <template v-if="i!=0">
             <!-- 判断，如果不是第一个才显示 叉号  第一个永远不能删除 -->
-            <van-icon class="btn" name="cross" v-if="editing"></van-icon>
+            <van-icon @click="$emit('delChannel',channel.id)" class="btn" name="cross" v-if="editing"></van-icon>
           </template>
         </van-grid-item>
       </van-grid>
