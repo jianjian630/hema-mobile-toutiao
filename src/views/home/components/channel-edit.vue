@@ -9,10 +9,10 @@
       </div>
       <van-grid class="van-hairline--left">
         <van-grid-item v-for="(channel,i) in channels" :key="channel.id">
-          <span class="f12">{{channel.name}}</span>
+          <span :class="{red: i===activeIndex}" @click="$emit('selectChannel',channel.id)" class="f12">{{channel.name}}</span>
           <template v-if="i!=0">
             <!-- 判断，如果不是第一个才显示 叉号  第一个永远不能删除 -->
-            <van-icon class="btn" name="cross"></van-icon>
+            <van-icon class="btn" name="cross" v-if="editing"></van-icon>
           </template>
         </van-grid-item>
       </van-grid>
@@ -43,6 +43,9 @@ export default {
       required: true,
       type: Array,
       default: () => []
+    },
+    activeIndex: {
+      type: Number
     }
   },
   created () {

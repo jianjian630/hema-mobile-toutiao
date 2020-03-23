@@ -14,10 +14,10 @@
       <more-action @dislike="dislikeOrReport($event,'dislike')"
       @report="dislikeOrReport($event,'report')"></more-action>
     </van-popup>
-    <!-- 编辑频道 -->
+    <!-- 编辑频道   :round="false"  是否显示圆角="否"-->
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
       <!-- 放置频道的组件    子传父 -->
-      <channel-edit :channels="channels"></channel-edit>
+      <channel-edit :activeIndex="activeIndex" @selectChannel="selectChannel" :channels="channels"></channel-edit>
     </van-action-sheet>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
 
   data: function () {
     return {
-      activeIndex: 0,
+      activeIndex: 0, // 默认第一个被选中
       channels: [], // 声明频道需要的数据
       showMoreAction: false, // 控制反馈组件显示隐藏
       articleId: null, // 用来接收文章id
@@ -46,6 +46,12 @@ export default {
 
   },
   methods: {
+    // 切换到对应的频道 ， 切换弹层
+    selectChannel (id) {
+      let index = this.channels.findIndex(item => item.id === id)
+      this.activeIndex = index // 点击的下标赋值给 当前激活下标
+      this.showChannelEdit = false // 关闭弹层
+    },
     async getMyChannels () {
       let data = await getMyChannels()
       // console.log(data)
