@@ -17,7 +17,7 @@
     <!-- 编辑频道   :round="false"  是否显示圆角="否"-->
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
       <!-- 放置频道的组件    子传父 -->
-      <channel-edit @delChannel="delChannel" :activeIndex="activeIndex" @selectChannel="selectChannel" :channels="channels"></channel-edit>
+      <channel-edit @addChannel="addChannel" @delChannel="delChannel" :activeIndex="activeIndex" @selectChannel="selectChannel" :channels="channels"></channel-edit>
     </van-action-sheet>
   </div>
 </template>
@@ -26,7 +26,7 @@
 import ArticleList from './components/article-list'
 import ChannelEdit from './components/channel-edit'
 import MoreAction from './components/more-action'
-import { getMyChannels, delChannel } from '@/api/channels'
+import { getMyChannels, delChannel, addChannel } from '@/api/channels'
 import { disLikeArticle, reportArticle } from '@/api/article'
 import eventBus from '@/utils/eventBus'
 export default {
@@ -46,6 +46,16 @@ export default {
 
   },
   methods: {
+    // 添加频道
+    async addChannel (item) {
+      try {
+        await addChannel(item)
+        // let str = this.channels.findIndex(item => item === channel)
+        this.channels.push(item)
+      } catch (e) {
+        this.$gnotify({ type: 'danger', message: '添加频道失败' })
+      }
+    },
     // 删除频道
     async delChannel (id) {
       try {

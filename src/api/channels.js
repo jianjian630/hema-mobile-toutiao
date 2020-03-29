@@ -51,8 +51,8 @@ export function addChannel (channel) {
   return new Promise(function (resolve, reject) {
     let key = store.state.user.token ? CACHE_CHANNEL_U : CACHE_CHANNEL_T
     let channels = JSON.parse(localStorage.getItem(key))
-    channels.push(channel)
-    localStorage.setItem(channels)
-    resolve() // 释放  成功执行
+    channels.push(channel) // 将频道添加到队尾
+    localStorage.setItem(key, JSON.stringify(channels))
+    resolve() // 释放  成功执行   一定要释放，不然会出不来
   })
 }
