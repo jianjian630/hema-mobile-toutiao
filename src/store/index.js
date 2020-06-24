@@ -19,8 +19,10 @@ export default new Vuex.Store({
       auth.delUser()
     }
   },
+  // 异步处理数据
   actions: {
   },
+  // 状态管理器的模块组
   modules: {
   }
 })

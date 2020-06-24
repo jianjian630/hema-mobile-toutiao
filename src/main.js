@@ -11,7 +11,6 @@ Vue.use(Vant)
 Vue.use(Plugin)
 // 挂在图片懒加载
 Vue.use(Lazyload)
-
 Vue.config.productionTip = false
 
 new Vue({

@@ -26,3 +26,21 @@ export function reportArticle (data) {
     method: 'post'
   })
 }
+
+// 获取文章搜索建议
+export function suggestion (params) {
+  return request({
+    url: '/suggestion',
+    params
+  })
+}
+
+// 获取文章搜索的结果
+// params 是get的参数
+// data 是body的参数
+export function searchArticle (params) {
+  return request({
+    url: '/search',
+    params
+  })
+}
