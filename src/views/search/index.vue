@@ -85,7 +85,7 @@ export default {
     // 点击搜索建议跳到搜索结果
     toSearchResult (txt) {
       let obj = new Set(this.historyList) // set 去重
-      console.log(txt)
+      // console.log(txt)
       obj.add(txt) // 把点击搜索的 加入到数组中
       this.historyList = Array.from(obj) // 将伪数组转化成数组
       localStorage.setItem(key, JSON.stringify(this.historyList)) // 重新写入缓存

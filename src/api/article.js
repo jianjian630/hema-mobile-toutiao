@@ -44,3 +44,27 @@ export function searchArticle (params) {
     params
   })
 }
+
+// 获取文章详情
+export function getArticleInfo (articleId) {
+  return request({
+    url: `/articles/${articleId}`
+  })
+}
+// 获取评论 或者评论的回复
+export function getComments (params) {
+  return request({
+    url: '/comments',
+    // query参数放在params里面
+    // body 参数 放置在 data
+    params
+  })
+}
+// 评论或者回复评论的方法
+export function commentOrReply (data) {
+  return request({
+    url: '/comments',
+    method: 'post',
+    data
+  })
+}

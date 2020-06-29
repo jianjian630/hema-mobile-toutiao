@@ -31,7 +31,7 @@ instance.interceptors.response.use(function (response) {
   }
 }, async function (error) {
   if (error.response && error.response.status === 401) {
-    let toPath = { path: '/login', query: { redirectUrl: router.currentRoute.path } }
+    let toPath = { path: '/login', query: { redirectUrl: router.currentRoute.fullPath } }
     // if (!user.token || !user.refresh_token) {
     //   router.push(toPath)
     //   return false

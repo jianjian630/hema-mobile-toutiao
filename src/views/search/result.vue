@@ -3,7 +3,7 @@
      <van-nav-bar fixed title="搜索结果" left-arrow  @click-left="$router.back()"/>
      <van-list v-model="upLoading" :finished="finished" @load="onLoad">
        <van-cell-group>
-         <van-cell v-for="item in articles" :key="item.art_id.toString()">
+         <van-cell :to="`/article?articleId=${item.art_id.toString()}`" v-for="item in articles" :key="item.art_id.toString()">
            <div class="article_item">
              <h3 class="van-ellipsis">{{item.title}}</h3>
              <div class="img_box" v-if="item.cover.type==3">
@@ -44,11 +44,11 @@ export default {
   methods: {
     async onLoad () {
       let { q } = this.$route.query // 从地址栏中解析查询参数
-      console.log(q)
+      // console.log(q)
       let data = await searchArticle({ ...this.page, q })
-      console.log(data)
+      // console.log(data)
       this.articles.push(...data.results)
-      console.log(this.articles)
+      // console.log(this.articles)
       this.upLoading = false // 手动关闭加载状态
       if (data.results.length) {
         this.page.page++ // 将页码+1 表示下一页还有数据
@@ -62,7 +62,7 @@ export default {
 
 <style scoped lang="less">
 .container {
-  // padding-top: 46px;
+  padding-top: 46px;
   height: 100%;
   overflow-y: auto;
   box-sizing: border-box;

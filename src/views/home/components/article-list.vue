@@ -2,7 +2,7 @@
   <div class="scroll-wrapper">
     <van-pull-refresh v-model="downLoading" :success-text="refreshSuccessText" @refresh="onRefresh">
       <van-list v-model="upLoading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <van-cell v-for="article in articles" :key="article.art_id.toString()">
+        <van-cell :to="`/article?articleId=${article.art_id.toString()}`" v-for="article in articles" :key="article.art_id.toString()">
           <!-- 三张图  -->
           <div class="article_item">
             <h3 class="van-ellipsis">{{article.title}}</h3>
@@ -23,7 +23,7 @@
               <span
                 class="close"
                 v-if="user.token"
-                @click="$emit('showAction',article.art_id.toString())"
+                @click.stop="$emit('showAction',article.art_id.toString())"
               >
                 <van-icon name="cross"></van-icon>
               </span>
