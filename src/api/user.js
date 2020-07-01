@@ -30,3 +30,18 @@ export function getUserInfo () {
     url: '/user'
   })
 }
+// 获取用户个人资料
+export function getUserProfile () {
+  return request({
+    url: '/user/profile'
+  })
+}
+
+// 更新用户头像
+export function patchUserPhoto (data) {
+  return request({
+    url: 'user/photo',
+    data,
+    method: 'patch' // patch 是局部更新  put 是全部更新
+  })
+}
