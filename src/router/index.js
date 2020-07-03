@@ -16,12 +16,15 @@ const Article = () => import('@/views/article') // 文章详情
 
 Vue.use(VueRouter)
 
+// meta 属性 是route信息里面的一个属性，可以存放一些数据，在路由切换的时候使用
+// isAlive 为true  缓存组件实例
+// 只有当缓存的是一级路由  并且下有子路由 且 子路由与一级路由的名字相同时，信息写在子路由上
 const routes = [
   {
     path: '/',
     component: Layout,
     children: [
-      { path: '/', component: Home },
+      { path: '/', component: Home, meta: { isAlive: true } },
       { path: '/question', component: Question },
       { path: '/video', component: Video },
       { path: '/user', component: User }
