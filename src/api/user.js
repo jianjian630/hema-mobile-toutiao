@@ -45,3 +45,12 @@ export function patchUserPhoto (data) {
     method: 'patch' // patch 是局部更新  put 是全部更新
   })
 }
+
+// 保存用户资料的方法
+export function saveUserInfo (data) {
+  return request({
+    url: '/user/profile',
+    data,
+    method: 'patch' // patch 是局部更新  put 是全部更新
+  })
+}

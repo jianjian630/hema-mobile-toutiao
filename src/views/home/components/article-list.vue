@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-wrapper">
+  <div ref="myDiv" class="scroll-wrapper" @scroll="remember">
     <van-pull-refresh v-model="downLoading" :success-text="refreshSuccessText" @refresh="onRefresh">
       <van-list v-model="upLoading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <van-cell :to="`/article?articleId=${article.art_id.toString()}`" v-for="article in articles" :key="article.art_id.toString()">
@@ -61,6 +61,17 @@ export default {
         }
       }
     })
+    eventBus.$on('changeTab', id => {
+      if (id === this.channel_id) {
+        this.$nextTick(() => {
+          this.$refs.myDiv.scrollTop = this.scrollTop
+        })
+      }
+    })
+  },
+  // 被keep-alive包裹的组件  激活的时候会调用的函数
+  activated () {
+    this.$refs.myDiv.scrollTop = this.scrollTop
   },
   computed: {
     ...mapState(['user'])
@@ -72,10 +83,16 @@ export default {
       articles: [],
       downLoading: false, // 是否开启下拉刷新
       refreshSuccessText: '更新成功',
-      timestamp: null // 定义属性用来存放时间戳
+      timestamp: null, // 定义属性用来存放时间戳
+      scrollTop: 0// 记录滚动条位置
     }
   },
   methods: {
+    // 切换到其他组件时 用 keep-alive 包裹的组件 记住滚动条的位置
+    remember (event) {
+      this.scrollTop = event.target.scrollTop
+    },
+    // 当组件被唤醒时会触发的函数
     async onLoad () {
       // 休眠函数
       await this.$sleep() // 等待 sleep resolve

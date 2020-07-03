@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: auth.getUser() // 从缓存中获取数据
+    user: auth.getUser(), // 从缓存中获取数据
+    photo: null
   },
   mutations: {
     // 更新数据
@@ -17,6 +18,10 @@ export default new Vuex.Store({
     clearUser (state) {
       state.user = {}
       auth.delUser()
+    },
+    // 更新头像
+    updatePhoto (state, payload) {
+      state.photo = payload.photo
     }
   },
   // 异步处理数据

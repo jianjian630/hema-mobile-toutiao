@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <van-nav-bar left-arrow @click-left="$router.back()" title="编辑资料" right-text="保存"></van-nav-bar>
+    <van-nav-bar left-arrow @click-left="$router.back()" title="编辑资料"  @click-right="saveUserInfo" right-text="保存"></van-nav-bar>
     <van-cell-group>
       <van-cell is-link title="头像" center>
         <van-image
@@ -53,7 +53,8 @@
 
 <script>
 import dayjs from 'dayjs'
-import { getUserProfile, patchUserPhoto } from '@/api/user'
+import { mapMutations } from 'vuex'
+import { getUserProfile, patchUserPhoto, saveUserInfo } from '@/api/user'
 export default {
   name: 'profile',
   data () {
@@ -80,6 +81,7 @@ export default {
     this.getUserProfile()
   },
   methods: {
+    ...mapMutations(['updatePhoto']),
     onSelect (item) {
       // console.log(item)
       this.user.gender = item.name === '男' ? 0 : 1
@@ -94,8 +96,10 @@ export default {
       this.nameMsg = ''
       this.showName = false
     },
+    // 获取用户信息
     async getUserProfile () {
       let data = await getUserProfile()
+      this.updatePhoto({ photo: data.photo })
       // console.log(data)
       this.user = data
     },
@@ -124,6 +128,19 @@ export default {
       console.log(result)
       this.user.photo = result.photo
       this.showPhoto = false
+      this.uploadPhoto({
+        photo: result.photo
+      })
+    },
+    // 修改用户信息之后点击保存的方法
+    async saveUserInfo () {
+      try {
+        await saveUserInfo({ ...this.user, photo: null })
+        this.$gnotify({ type: 'success', message: '保存成功' })
+        this.$router.push('/user')
+      } catch (err) {
+        this.$gnotify({ type: 'danger', message: '保存失败' })
+      }
     }
 
   }

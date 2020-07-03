@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <van-tabs v-model="activeIndex" swipeable>
+  <div class="container" >
+    <van-tabs v-model="activeIndex" swipeable @change="changeTab">
       <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
         <article-list @showAction="openMoreAction" :channel_id="channel.id"></article-list>
       </van-tab>
@@ -46,6 +46,10 @@ export default {
 
   },
   methods: {
+    // 切换tab 的时候 页面滚动的监听
+    changeTab () {
+      eventBus.$emit('changeTab', this.channels[this.activeIndex].id)
+    },
     // 添加频道
     async addChannel (item) {
       try {

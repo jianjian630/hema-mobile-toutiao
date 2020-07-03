@@ -56,9 +56,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['clearUser']),
+    ...mapMutations(['clearUser', 'updatePhoto']),
+    // 获取用户信息
     async getUserInfo () {
       this.userInfo = await getUserInfo()
+      this.updatePhoto({ photo: this.userInfo.photo })
     },
     // 退出登录
     async lgout () {
